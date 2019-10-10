@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/dummy-data.dart';
+import 'package:meals_app/models/meal.dart';
 import 'package:meals_app/widgets/meal_item.dart';
 
-class CategoryMealScreen extends StatelessWidget {
+class CategoryMealScreen extends StatefulWidget {
 
   static const routeName = '/categories-meals';
+  
+  final List<Meal> availableMeals;
+
   // final String categoryId;
   // final String categoryTitle;
 
-  // CategoryMealScreen({this.categoryId, this.categoryTitle});
+  CategoryMealScreen(this.availableMeals);
 
+  @override
+  _CategoryMealScreenState createState() => _CategoryMealScreenState();
+}
+
+class _CategoryMealScreenState extends State<CategoryMealScreen> {
   @override
   Widget build(BuildContext context) {
 
     final routeargs = ModalRoute.of(context).settings.arguments as Map<String,String>;
     final categoryTitle = routeargs['title'];
     final categoryId = routeargs['id'];
-    final categoryMeals = DUMMY_MEALS.where((meal) => meal.categories.contains(categoryId)).toList();
+    final categoryMeals = widget.availableMeals.where((meal) => meal.categories.contains(categoryId)).toList();
 
     return Scaffold(
       appBar: AppBar(
